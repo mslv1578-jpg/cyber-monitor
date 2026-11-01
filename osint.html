@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSINT | Cyber Monitor</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;padding:20px;
+background:#080d16;color:#e5edf5;
+font-family:Arial,sans-serif
+}
+header,.panel{
+background:#111b2b;
+padding:22px;
+border:1px solid #26384b;
+border-radius:12px;
+margin-bottom:18px
+}
+h1,h2{color:#00e69a}
+a{color:#00e69a;text-decoration:none}
+input{
+width:100%;padding:14px;margin:12px 0;
+background:#080d16;color:white;
+border:1px solid #33475d;border-radius:8px
+}
+button{
+background:#00b77b;color:#04140e;
+padding:12px 20px;border:0;
+border-radius:8px;font-weight:bold
+}
+#result{margin-top:18px;line-height:2}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>CYBER MONITOR</h1>
+<p>Open Source Intelligence</p>
+<a href="index.html">← العودة للرئيسية</a>
+</header>
+
+<div class="panel">
+<h2>تحليل المصادر المفتوحة OSINT</h2>
+<p>أدخل كلمة أو اسم نطاق لتنظيم عملية البحث في المصادر العامة.</p>
+
+<input id="query" placeholder="أدخل كلمة البحث">
+
+<button onclick="analyze()">بدء التحليل</button>
+
+<div id="result"></div>
+</div>
+
+<script>
+function analyze(){
+const query=document.getElementById("query").value.trim();
+const result=document.getElementById("result");
+
+result.textContent="";
+
+if(!query){
+result.textContent="يرجى إدخال كلمة للبحث.";
+return;
+}
+
+const title=document.createElement("h3");
+title.textContent="نتيجة التحليل";
+
+const value=document.createElement("p");
+value.textContent="عبارة البحث: "+query;
+
+const note=document.createElement("p");
+note.textContent="تم تجهيز عبارة البحث. هذا النموذج لا يجمع بيانات الأشخاص ولا ينفذ عمليات بحث تلقائية.";
+
+const link=document.createElement("a");
+link.href="https://www.google.com/search?q="+encodeURIComponent(query);
+link.target="_blank";
+link.rel="noopener noreferrer";
+link.textContent="البحث في المصادر العامة";
+
+result.append(title,value,note,link);
+}
+</script>
+
+</body>
+</html>
