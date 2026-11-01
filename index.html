@@ -5,32 +5,142 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cyber Monitor</title>
 <style>
+* {box-sizing:border-box}
 body {
-  background: #080d16;
-  color: #00ff99;
-  font-family: Arial;
-  text-align: center;
-  padding: 30px;
+  margin:0;
+  background:#080d16;
+  color:#e5edf5;
+  font-family:Arial,sans-serif;
 }
-.container {
-  background: #111b2b;
-  padding: 25px;
-  border-radius: 15px;
-  max-width: 500px;
-  margin: auto;
+header {
+  background:#111b2b;
+  padding:22px;
+  border-bottom:1px solid #00d68f;
 }
-h1 { color: #00ff99; }
-p { color: white; }
+h1 {color:#00e69a;margin:0}
+header p {color:#91a4b8;margin-bottom:0}
+main {padding:20px;max-width:1000px;margin:auto}
+.status {
+  background:#10251f;
+  border:1px solid #087c56;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:20px;
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:12px;
+}
+.card {
+  background:#111b2b;
+  border:1px solid #26384b;
+  padding:18px;
+  border-radius:12px;
+}
+.card h3 {color:#00e69a}
+input {
+  width:100%;
+  padding:13px;
+  margin:10px 0;
+  background:#080d16;
+  color:white;
+  border:1px solid #33475d;
+  border-radius:8px;
+}
+button {
+  background:#00b77b;
+  color:#04140e;
+  border:0;
+  padding:12px 20px;
+  border-radius:8px;
+  font-weight:bold;
+}
+#result {
+  margin-top:15px;
+  color:#00e69a;
+  overflow-wrap:anywhere;
+}
+footer {
+  text-align:center;
+  color:#718398;
+  padding:25px;
+}
 </style>
 </head>
 <body>
-<div class="container">
+
+<header>
 <h1>CYBER MONITOR</h1>
 <p>منصة تحليل المعلومات والاستخبارات السيبرانية</p>
-<hr>
-<h3>حالة النظام</h3>
-<p>🟢 النظام يعمل</p>
-<p>الإصدار 1.0</p>
+</header>
+
+<main>
+
+<div class="status">
+🟢 حالة المنصة: تعمل بنجاح
+<br><br>
+الإصدار: 2.0
 </div>
+
+<h2>لوحة التحكم الرئيسية</h2>
+
+<div class="grid">
+<div class="card">
+<h3>IP Analysis</h3>
+<p>تحليل عناوين IP</p>
+</div>
+<div class="card">
+<h3>Domain</h3>
+<p>تحليل النطاقات</p>
+</div>
+<div class="card">
+<h3>OSINT</h3>
+<p>المصادر المفتوحة</p>
+</div>
+<div class="card">
+<h3>Reports</h3>
+<p>سجل التحليلات</p>
+</div>
+</div>
+
+<br>
+
+<div class="card">
+<h2>أداة فحص عنوان IP</h2>
+<p>أدخل عنوان IP عام للاطلاع على بياناته الأساسية.</p>
+
+<input id="ip" placeholder="مثال: 8.8.8.8" dir="ltr">
+
+<button onclick="analyzeIP()">تحليل العنوان</button>
+
+<div id="result"></div>
+</div>
+
+</main>
+
+<footer>
+CYBER MONITOR © 2026
+<br>
+Educational Cyber Intelligence Platform
+</footer>
+
+<script>
+function analyzeIP() {
+ const ip = document.getElementById("ip").value.trim();
+ const result = document.getElementById("result");
+
+ const valid = /^(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)$/.test(ip);
+
+ if (!valid) {
+   result.textContent = "يرجى إدخال عنوان IPv4 صحيح.";
+   return;
+ }
+
+ result.textContent = "تم التحقق من صيغة العنوان: " + ip +
+ " — لم يتم إجراء اتصال أو فحص للشبكة.";
+}
+</script>
+
 </body>
 </html>
