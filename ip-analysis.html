@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IP Analysis | Cyber Monitor</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#080d16;color:#e5edf5;
+ font-family:Arial,sans-serif;padding:20px
+}
+header,.panel{
+ background:#111b2b;padding:22px;
+ border:1px solid #26384b;border-radius:12px;
+ margin-bottom:18px
+}
+h1,h2{color:#00e69a}
+a{color:#00e69a;text-decoration:none}
+input{
+ width:100%;padding:14px;margin:12px 0;
+ background:#080d16;color:white;
+ border:1px solid #33475d;border-radius:8px
+}
+button{
+ background:#00b77b;color:#04140e;
+ padding:12px 20px;border:0;border-radius:8px;
+ font-weight:bold
+}
+#result{margin-top:18px;line-height:2}
+</style>
+</head>
+<body>
+<header>
+<h1>CYBER MONITOR</h1>
+<p>IP Intelligence Analysis</p>
+<a href="index.html">← العودة للرئيسية</a>
+</header>
+
+<div class="panel">
+<h2>تحليل عنوان IP</h2>
+<p>أدخل عنوان IPv4 لتحليل بنيته وتصنيفه.</p>
+<input id="ip" dir="ltr" placeholder="مثال: 8.8.8.8">
+<button onclick="analyze()">بدء التحليل</button>
+<div id="result"></div>
+</div>
+
+<script>
+function analyze(){
+ const ip=document.getElementById("ip").value.trim();
+ const out=document.getElementById("result");
+ const parts=ip.split(".");
+
+ if(parts.length!==4 ||
+ !parts.every(x=>/^\d{1,3}$/.test(x)&&Number(x)<=255)){
+ out.textContent="عنوان IP غير صحيح.";
+ return;
+ }
+
+ const n=parts.map(Number);
+ let type="عنوان عام أو غير مصنف محلياً";
+
+ if(n[0]===10 ||
+ (n[0]===172&&n[1]>=16&&n[1]<=31) ||
+ (n[0]===192&&n[1]===168))
+ type="عنوان خاص (Private IP)";
+ else if(n[0]===127)
+ type="عنوان Loopback";
+ else if(n[0]===169&&n[1]===254)
+ type="عنوان Link-local";
+
+ out.innerHTML="";
+ const title=document.createElement("h3");
+ title.textContent="نتيجة التحليل";
+ const address=document.createElement("p");
+ address.textContent="العنوان: "+ip;
+ const classification=document.createElement("p");
+ classification.textContent="التصنيف: "+type;
+ const note=document.createElement("p");
+ note.textContent="تحليل محلي للصيغة والتصنيف فقط.";
+ out.append(title,address,classification,note);
+}
+</script>
+</body>
+</html>
