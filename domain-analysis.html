@@ -96,6 +96,19 @@ function analyze(){
 
  out.append(title,name,status,note);
  saveDomainReport(domain);
+ let activities = JSON.parse(
+  localStorage.getItem("cyberMonitorActivityLog") || "[]"
+);
+
+activities.unshift({
+  action: "تم تحليل نطاق Domain",
+  time: new Date().toLocaleString("ar")
+});
+
+localStorage.setItem(
+  "cyberMonitorActivityLog",
+  JSON.stringify(activities.slice(0, 10))
+);
 }
 </script>
 </body>
