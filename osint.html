@@ -234,6 +234,66 @@ async function lookupWhois() {
 }
 </script>
 
+<div class="card">
+  <h3>URL Analyzer</h3>
+  <p>تحليل الروابط وفحص مؤشراتها</p>
+
+  <input id="urlInput" placeholder="https://example.com">
+
+  <button onclick="analyzeURL()">تحليل الرابط</button>
+
+  <div id="urlResult"></div>
+</div>
+
+<script>
+function analyzeURL() {
+  const input = document.getElementById("urlInput").value.trim();
+  const output = document.getElementById("urlResult");
+
+  let url;
+
+  try {
+    url = new URL(input);
+  } catch {
+    output.textContent = "الرابط غير صالح";
+    return;
+  }
+
+  if (!["http:", "https:"].includes(url.protocol)) {
+    output.textContent = "البروتوكول غير مدعوم";
+    return;
+  }
+
+  const warnings = [];
+
+  if (url.protocol !== "https:") {
+    warnings.push("الاتصال لا يستخدم HTTPS");
+  }
+
+  if (url.username || url.password) {
+    warnings.push("الرابط يحتوي على بيانات دخول");
+  }
+
+  if (url.hostname.startsWith("xn--") ||
+      url.hostname.includes(".xn--")) {
+    warnings.push("النطاق يستخدم صيغة IDN");
+  }
+
+  output.replaceChildren();
+
+  const lines = [
+    "النطاق: " + url.hostname,
+    "البروتوكول: " + url.protocol,
+    "المسار: " + url.pathname,
+    "معاملات URL: " + url.searchParams.size,
+    "التحذيرات: " + (warnings.join(" | ") || "لا توجد مؤشرات أولية")
+  ];
+
+  const result = document.createElement("pre");
+  result.textContent = lines.join("\n");
+  output.appendChild(result);
+}
+</script>
 
 </body>
 </html>
