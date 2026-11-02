@@ -125,5 +125,63 @@ result.innerHTML = `
 `;
 }
 </script>
+  
+<div class="card">
+  <h3>DNS Lookup</h3>
+  <p>استخراج سجلات DNS العامة</p>
+
+  <input id="dnsDomain" placeholder="example.com">
+
+  <select id="dnsType">
+    <option value="A">A - IPv4</option>
+    <option value="AAAA">AAAA - IPv6</option>
+    <option value="MX">MX - Mail</option>
+    <option value="NS">NS - Name Servers</option>
+    <option value="TXT">TXT - Text Records</option>
+  </select>
+
+  <button onclick="lookupDNS()">فحص DNS</button>
+
+  <pre id="dnsResult"></pre>
+</div>
+
+<script>
+async function lookupDNS() {
+  const domain = document.getElementById("dnsDomain").value.trim();
+  const type = document.getElementById("dnsType").value;
+  const output = document.getElementById("dnsResult");
+
+  if (!/^(?=.{1,253}$)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(domain)) {
+    output.textContent = "يرجى إدخال نطاق صحيح";
+    return;
+  }
+
+  output.textContent = "جارٍ فحص سجلات DNS...";
+
+  try {
+    const url = "https://dns.google/resolve?name=" +
+      encodeURIComponent(domain) + "&type=" + type;
+
+    const response = await fetch(url);
+
+    if (!response.ok) throw new Error("Request failed");
+
+    const data = await response.json();
+
+    if (!data.Answer) {
+      output.textContent = "لا توجد سجلات متاحة لهذا النوع.";
+      return;
+    }
+
+    output.textContent = data.Answer.map(record =>
+      record.data
+    ).join("\n");
+
+  } catch (error) {
+    output.textContent = "تعذر الاتصال بخدمة DNS. حاول لاحقاً.";
+  }
+}
+</script>
+
 </body>
 </html>
