@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Monitor - Reports</title>
+<style>
+body {
+    margin: 0;
+    padding: 20px;
+    background: #080d17;
+    color: #e5eaf2;
+    font-family: Arial, sans-serif;
+}
+header {
+    background: #111c2e;
+    padding: 20px;
+    border-bottom: 2px solid #00c99a;
+    text-align: center;
+}
+h1 { color: #00d5a0; }
+.card {
+    background: #131e30;
+    border: 1px solid #26364b;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+}
+button {
+    background: #00b98b;
+    color: #06130f;
+    border: 0;
+    padding: 12px 20px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+.item {
+    padding: 12px;
+    border-bottom: 1px solid #26364b;
+}
+a { color: #00d5a0; }
+</style>
+</head>
+<body>
+
+<header>
+<h1>CYBER MONITOR</h1>
+<p>Analysis Reports</p>
+</header>
+
+<div class="card">
+<h2>سجل التحليلات</h2>
+<p>هنا ستظهر نتائج التحليلات المحفوظة.</p>
+<div id="reports"></div>
+<br>
+<button onclick="clearReports()">مسح السجل</button>
+</div>
+
+<div class="card">
+<a href="index.html">العودة إلى الصفحة الرئيسية</a>
+</div>
+
+<script>
+function loadReports() {
+    const reports = JSON.parse(
+        localStorage.getItem("cyberMonitorReports") || "[]"
+    );
+
+    const container = document.getElementById("reports");
+
+    if (reports.length === 0) {
+        container.innerHTML = "<p>لا توجد تحليلات محفوظة حالياً.</p>";
+        return;
+    }
+
+    container.innerHTML = reports.map(report =>
+        `<div class="item">
+        <strong>${report.type || "تحليل"}</strong>
+        <p>${report.value || ""}</p>
+        <small>${report.date || ""}</small>
+        </div>`
+    ).join("");
+}
+
+function clearReports() {
+    if (confirm("هل تريد مسح سجل التحليلات؟")) {
+        localStorage.removeItem("cyberMonitorReports");
+        loadReports();
+    }
+}
+
+loadReports();
+</script>
+
+</body>
+</html>
