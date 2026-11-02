@@ -254,6 +254,19 @@ async function lookupWhois() {
       "\nالمسجل: " + (registrar?.vcardArray?.[1]?.find(x => x[0] === "fn")?.[3] || "غير متاح") +
       "\nالحالات: " + (data.status || []).join(", ") +
       "\nالتواريخ:\n" + (events.join("\n") || "غير متاحة");
+    let activities = JSON.parse(
+  localStorage.getItem("cyberMonitorActivityLog") || "[]"
+);
+
+activities.unshift({
+  action: "تم تنفيذ WHOIS/RDAP",
+  time: new Date().toLocaleString("ar")
+});
+
+localStorage.setItem(
+  "cyberMonitorActivityLog",
+  JSON.stringify(activities.slice(0, 10))
+);
   } catch (error) {
     output.textContent = "تعذر جلب المعلومات. حاول لاحقاً.";
   }
@@ -318,7 +331,21 @@ function analyzeURL() {
   const result = document.createElement("pre");
   result.textContent = lines.join("\n");
   output.appendChild(result);
+  let activities = JSON.parse(
+  localStorage.getItem("cyberMonitorActivityLog") || "[]"
+);
+
+activities.unshift({
+  action: "تم تنفيذ URL Analysis",
+  time: new Date().toLocaleString("ar")
+});
+
+localStorage.setItem(
+  "cyberMonitorActivityLog",
+  JSON.stringify(activities.slice(0, 10))
+);
 }
+
 </script>
 
 </body>
