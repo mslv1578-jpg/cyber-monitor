@@ -51,6 +51,22 @@ placeholder="example.com">
 </div>
 
 <script>
+ function saveDomainReport(domain) {
+    const reports = JSON.parse(
+        localStorage.getItem("cyberMonitorReports") || "[]"
+    );
+
+    reports.unshift({
+        type: "Domain Analysis",
+        value: domain,
+        date: new Date().toLocaleString("ar")
+    });
+
+    localStorage.setItem(
+        "cyberMonitorReports",
+        JSON.stringify(reports)
+    );
+ }
 function analyze(){
  const value=document.getElementById("domain").value.trim();
  const out=document.getElementById("result");
@@ -79,6 +95,7 @@ function analyze(){
  note.textContent="هذا فحص محلي للصيغة فقط، ولا يؤكد ملكية النطاق أو نشاطه أو سلامته.";
 
  out.append(title,name,status,note);
+ saveDomainReport(domain);
 }
 </script>
 </body>
