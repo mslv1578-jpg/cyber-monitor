@@ -189,6 +189,19 @@ async function lookupDNS() {
     output.textContent = data.Answer.map(record =>
       record.data
     ).join("\n");
+    let activities = JSON.parse(
+  localStorage.getItem("cyberMonitorActivityLog") || "[]"
+);
+
+activities.unshift({
+  action: "تم تنفيذ DNS Lookup",
+  time: new Date().toLocaleString("ar")
+});
+
+localStorage.setItem(
+  "cyberMonitorActivityLog",
+  JSON.stringify(activities.slice(0, 10))
+);
 
   } catch (error) {
     output.textContent = "تعذر الاتصال بخدمة DNS. حاول لاحقاً.";
