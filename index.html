@@ -134,7 +134,12 @@ footer {
       <p>حالة المنصة</p>
     </div>
   </div>
-
+<div class="card">
+  <h3>Activity Log - سجل النشاطات</h3>
+  <ul id="activityLog">
+    <li>تم تشغيل المنصة</li>
+  </ul>
+</div>
   <p>Cyber Monitor - Open Source Intelligence Platform</p>
 </div>
 
@@ -215,5 +220,42 @@ const analysisCount = document.getElementById("analysisCount");
 if (analysisCount) {
   analysisCount.textContent = "4";
 }
-</script></body>
+  function logActivity(action) {
+  let activities = JSON.parse(
+    localStorage.getItem("cyberMonitorActivityLog") || "[]"
+  );
+
+  activities.unshift({
+    action: action,
+    time: new Date().toLocaleString("ar")
+  });
+
+  activities = activities.slice(0, 10);
+
+  localStorage.setItem(
+    "cyberMonitorActivityLog",
+    JSON.stringify(activities)
+  );
+
+  displayActivityLog();
+}
+
+function displayActivityLog() {
+  const list = document.getElementById("activityLog");
+  const activities = JSON.parse(
+    localStorage.getItem("cyberMonitorActivityLog") || "[]"
+  );
+
+  list.textContent = "";
+
+  activities.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = item.action + " - " + item.time;
+    list.appendChild(li);
+  });
+}
+
+displayActivityLog();
+</script>
+</body>
 </html>
