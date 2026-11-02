@@ -82,6 +82,19 @@ link.rel="noopener noreferrer";
 link.textContent="البحث في المصادر العامة";
 
 result.append(title,value,note,link);
+  let activities = JSON.parse(
+  localStorage.getItem("cyberMonitorActivityLog") || "[]"
+);
+
+activities.unshift({
+  action: "تم تنفيذ تحليل OSINT",
+  time: new Date().toLocaleString("ar")
+});
+
+localStorage.setItem(
+  "cyberMonitorActivityLog",
+  JSON.stringify(activities.slice(0, 10))
+);
 }
 </script>
 <script>
