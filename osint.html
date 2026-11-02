@@ -182,6 +182,58 @@ async function lookupDNS() {
   }
 }
 </script>
+  
+<div class="card">
+  <h3>WHOIS Intelligence</h3>
+  <p>معلومات تسجيل النطاق</p>
+
+  <input id="whoisDomain" placeholder="example.com">
+
+  <button onclick="lookupWhois()">فحص WHOIS</button>
+
+  <pre id="whoisResult"></pre>
+</div>
+
+<script>
+async function lookupWhois() {
+  const domain = document.getElementById("whoisDomain").value.trim();
+  const output = document.getElementById("whoisResult");
+
+  if (!/^(?=.{1,253}$)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(domain)) {
+    output.textContent = "أدخل نطاقاً صحيحاً";
+    return;
+  }
+
+  output.textContent = "جارٍ جلب معلومات النطاق...";
+
+  try {
+    const response = await fetch(
+      "https://rdap.org/domain/" + encodeURIComponent(domain)
+    );
+
+    if (!response.ok) throw new Error("Unavailable");
+
+    const data = await response.json();
+
+    const registrar = data.entities?.find(e =>
+      e.roles?.includes("registrar")
+    );
+
+    const events = (data.events || []).map(e =>
+      e.eventAction + ": " + e.eventDate
+    );
+
+    output.textContent =
+      "النطاق: " + data.ldhName +
+      "\nالمسجل: " + (registrar?.vcardArray?.[1]?.find(x => x[0] === "fn")?.[3] || "غير متاح") +
+      "\nالحالات: " + (data.status || []).join(", ") +
+      "\nالتواريخ:\n" + (events.join("\n") || "غير متاحة");
+  } catch (error) {
+    output.textContent = "تعذر جلب المعلومات. حاول لاحقاً.";
+  }
+}
+</script>
+
 
 </body>
 </html>
