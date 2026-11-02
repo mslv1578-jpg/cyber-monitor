@@ -117,7 +117,7 @@ footer {
 
   <div class="stats">
     <div class="stat">
-      <h3>4</h3>
+      <h3 id="toolsCount">4</h3>
       <p>أدوات تحليل</p>
     </div>
 
@@ -193,6 +193,11 @@ function analyzeIP() {
 
  result.textContent = "تم التحقق من صيغة العنوان: " + ip +
  " — لم يتم إجراء اتصال أو فحص للشبكة.";
+}
+  const toolsCount = document.getElementById("toolsCount");
+
+if (toolsCount) {
+  toolsCount.textContent = "4";
 }
 </script>
 const reports = JSON.parse(
