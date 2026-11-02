@@ -47,6 +47,22 @@ button{
 </div>
 
 <script>
+ function saveIPReport(ip) {
+    const reports = JSON.parse(
+        localStorage.getItem("cyberMonitorReports") || "[]"
+    );
+
+    reports.unshift({
+        type: "IP Analysis",
+        value: ip,
+        date: new Date().toLocaleString("ar")
+    });
+
+    localStorage.setItem(
+        "cyberMonitorReports",
+        JSON.stringify(reports)
+    );
+ }
 function analyze(){
  const ip=document.getElementById("ip").value.trim();
  const out=document.getElementById("result");
@@ -80,6 +96,7 @@ function analyze(){
  const note=document.createElement("p");
  note.textContent="تحليل محلي للصيغة والتصنيف فقط.";
  out.append(title,address,classification,note);
+ saveIPReport(ip);
 }
 </script>
 </body>
