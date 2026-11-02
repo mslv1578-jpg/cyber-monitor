@@ -95,5 +95,35 @@ document.querySelectorAll('.card').forEach(card => {
   });
 });
 </script>
+  <div class="card">
+<h3>Domain Intelligence</h3>
+<p>تحليل معلومات النطاق</p>
+
+<input id="domainInput" placeholder="example.com">
+
+<button onclick="analyzeDomain()">
+تحليل النطاق
+</button>
+
+<div id="domainResult"></div>
+</div>
+
+<script>
+function analyzeDomain() {
+const domain = document.getElementById("domainInput").value.trim();
+const result = document.getElementById("domainResult");
+
+if (!/^(?=.{1,253}$)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(domain)) {
+result.textContent = "يرجى إدخال نطاق صحيح";
+return;
+}
+
+result.innerHTML = `
+<h3>نتيجة التحليل</h3>
+<p>النطاق: ${domain.replace(/[&<>"']/g, "")}</p>
+<a href="https://www.google.com/search?q=${encodeURIComponent("DNS " + domain)}" target="_blank" rel="noopener">البحث عن معلومات DNS</a>
+`;
+}
+</script>
 </body>
 </html>
