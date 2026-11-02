@@ -84,6 +84,16 @@ link.textContent="البحث في المصادر العامة";
 result.append(title,value,note,link);
 }
 </script>
-
+<script>
+document.querySelectorAll('.card').forEach(card => {
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', () => {
+    const title = card.querySelector('h3')?.innerText;
+    if (title) {
+      alert('تم اختيار الأداة: ' + title);
+    }
+  });
+});
+</script>
 </body>
 </html>
