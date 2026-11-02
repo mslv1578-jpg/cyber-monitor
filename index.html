@@ -195,6 +195,10 @@ function analyzeIP() {
  " — لم يتم إجراء اتصال أو فحص للشبكة.";
 }
 </script>
+const reports = JSON.parse(
+  localStorage.getItem("cyberMonitorReports") || "[]"
+);
 
+console.log("عدد التقارير:", reports.length);
 </body>
 </html>
