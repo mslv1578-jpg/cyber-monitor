@@ -195,7 +195,15 @@ function analyzeIP() {
  " — لم يتم إجراء اتصال أو فحص للشبكة.";
 }
   const toolsCount = document.getElementById("toolsCount");
+const reportsCount = document.getElementById("reportsCount");
 
+if (reportsCount) {
+  const reports = JSON.parse(
+    localStorage.getItem("cyberMonitorReports") || "[]"
+  );
+
+  reportsCount.textContent = reports.length;
+}
 if (toolsCount) {
   toolsCount.textContent = "4";
 }
