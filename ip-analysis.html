@@ -96,7 +96,19 @@ function analyze(){
  const note=document.createElement("p");
  note.textContent="تحليل محلي للصيغة والتصنيف فقط.";
  out.append(title,address,classification,note);
- saveIPReport(ip);
+ saveIPReport(ip);let activities = JSON.parse(
+  localStorage.getItem("cyberMonitorActivityLog") || "[]"
+);
+
+activities.unshift({
+  action: "تم تحليل عنوان IP",
+  time: new Date().toLocaleString("ar")
+});
+
+localStorage.setItem(
+  "cyberMonitorActivityLog",
+  JSON.stringify(activities.slice(0, 10))
+);
 }
 </script>
 </body>
