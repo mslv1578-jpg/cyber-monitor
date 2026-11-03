@@ -72,15 +72,16 @@ function loadReports() {
     if (reports.length === 0) {
         container.innerHTML = "<p>لا توجد تحليلات محفوظة حالياً.</p>";
         return;
-    }
-
-    container.innerHTML = reports.map(report =>
-        `<div class="item">
+        { container.innerHTML = reports.map((report, index) =>
+    `<div class="item">
         <strong>${report.type || "تحليل"}</strong>
         <p>${report.value || ""}</p>
         <small>${report.date || ""}</small>
-        </div>`
-    ).join("");
+        <br><br>
+        <button onclick="viewReport(${index})">عرض التفاصيل</button>
+        <button onclick="deleteReport(${index})">حذف التقرير</button>
+    </div>`
+).join("");
 }
 
 function clearReports() {
@@ -89,7 +90,38 @@ function clearReports() {
         loadReports();
     }
 }
+function viewReport(index) {
+    const reports = JSON.parse(
+        localStorage.getItem("cyberMonitorReports") || "[]"
+    );
 
+    const report = reports[index];
+
+    if (!report) return;
+
+    alert(
+        "نوع التقرير: " + report.type +
+        "\nالقيمة: " + report.value +
+        "\nالتاريخ: " + report.date
+    );
+}
+
+function deleteReport(index) {
+    const reports = JSON.parse(
+        localStorage.getItem("cyberMonitorReports") || "[]"
+    );
+
+    if (!reports[index]) return;
+
+    reports.splice(index, 1);
+
+    localStorage.setItem(
+        "cyberMonitorReports",
+        JSON.stringify(reports)
+    );
+
+    loadReports();
+}
 loadReports();
 </script>
 
