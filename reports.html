@@ -70,9 +70,11 @@ function loadReports() {
     const container = document.getElementById("reports");
 
     if (reports.length === 0) {
-        container.innerHTML = "<p>لا توجد تحليلات محفوظة حالياً.</p>";
-        return;
-        { container.innerHTML = reports.map((report, index) => `
+    container.innerHTML = "<p>لا توجد تحليلات محفوظة حالياً.</p>";
+    return;
+}
+
+container.innerHTML = reports.map((report, index) => `
     <div class="item">
         <strong>${report.type || "تحليل"}</strong>
         <p>${report.value || ""}</p>
