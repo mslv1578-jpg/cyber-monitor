@@ -136,9 +136,14 @@ footer {
   </div>
 <div class="card">
   <h3>Activity Log - سجل النشاطات</h3>
-  <ul id="activityLog">
-    <li>تم تشغيل المنصة</li>
-  </ul>
+  <div class="activity-actions">
+  <button onclick="clearActivityLog()">مسح السجل</button>
+  <button onclick="displayActivityLog()">تحديث السجل</button>
+</div>
+
+<ul id="activityLog">
+  <li>تم تشغيل المنصة</li>
+</ul>
 </div>
   <p>Cyber Monitor - Open Source Intelligence Platform</p>
 </div>
@@ -256,6 +261,10 @@ function displayActivityLog() {
 }
 
 displayActivityLog();
+  function clearActivityLog() {
+  localStorage.removeItem("cyberMonitorActivityLog");
+  displayActivityLog();
+  }
 </script>
 </body>
 </html>
